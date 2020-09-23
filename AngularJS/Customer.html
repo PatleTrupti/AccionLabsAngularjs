@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<script src="Scripts/angular.js"></script>
+<script src="CustomerF.js"></script>
+
+<script>
+    function BindingCode($scope, Factory, $http) {
+        $scope.Customer = Factory.createCustomer();
+        $scope.Customers = [];
+        $scope.Submit = function () {
+            $http.post("https://localhost:44336/api/Customer", $scope.Customer)
+                .then(function (response) {
+                    alert("SuccessFully Added");
+                });
+        }
+        $scope.Update = function () {
+            $http.put("https://localhost:44336/api/Customer", JSON.stringify($scope.Customer))
+                .then(function (response) {
+                    alert("Updated Successfully");
+                }
+                    , function (error) {
+                        alert("Invalid Data");
+                    });
+        }
+        $http.get("https://localhost:44336/api/Customer")
+            .then(function (response) {
+                $scope.Customers = response.data;
+            });
+    }
+
+
+    var myApp = angular.module("myApp", []);
+    myApp.controller("BindingCode", BindingCode);
+    myApp.factory("Factory", Factory);
+</script>
+<body>
+    <div ng-app="myApp">
+        <div id="CustScreen" ng-controller="BindingCode">
+            Customer Name:<input ng-model="Customer.CUSTOMERNAME" type="text" id="CUSTOMERNAME" /><br />
+            Customer Phone: <input ng-model="Customer.MOBILENO" type="text" id="MOBILENO" /><br />
+            Customer Address: <input ng-model="Customer.ADDRESS" type="text" id="ADDRESS" /><br />
+            <input type="button" ng-click="Submit()" name="name" value="Submit" />
+            <input type="button" ng-click="Update()" name="name" value="Update" /><br /><br />
+
+            <!--{{Customer.CUSTOMERNAME}}<br />
+                {{Customer.MOBILENO}}<br />
+                 {{Customer.ADDRESS}}<br />-->
+
+            <table>
+                <tr>
+                    <td>
+                        Customer Name
+                    </td>
+                    <td>
+                        Phone
+                    </td>
+                    <td>
+                        Address
+                    </td>
+                </tr>
+                <tr ng-repeat="cust in Customers">
+                    <td>
+                        {{cust.CUSTOMERNAME}}
+                    </td>
+                    <td>
+                        {{cust.MOBILENO}}
+                    </td>
+                    <td>
+                        {{cust.ADDRESS}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
