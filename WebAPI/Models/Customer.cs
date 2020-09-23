@@ -11,5 +11,7 @@ namespace WebAPI.Models
         public string CUSTOMERNAME { get; set; }
         public string MOBILENO { get; set; }
         public string ADDRESS { get; set; }
+
+
     }
 }
