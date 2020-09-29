@@ -29,8 +29,13 @@
         $http.get("https://localhost:44336/api/Customer")
             .then(function (response) {
                 $scope.Customers = response.data;
-            });
+            }
+                , function (error) {
+                    $scope.Customer;
+                });
     }
+
+
 
 
     var myApp = angular.module("myApp", []);
